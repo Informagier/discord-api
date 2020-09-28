@@ -35,7 +35,7 @@ public abstract class DiscordCommand {
         return aliases;
     }
 
-    private class Command extends ListenerAdapter {
+    public static class Command extends ListenerAdapter {
         public GuildMessageReceivedEvent event;
         public String[] args;
 
