@@ -11,39 +11,48 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class EmbedManager {
+
 
     public static EmbedBuilder getEmbedFromJson(HashMap<String, String> jsonHashMap, String jsonName) {
         try {
             String json = new ObjectMapper().writeValueAsString(jsonHashMap);
             JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class).get(jsonName).getAsJsonObject();
 
-            EmbedBuilder embedBuilder = new EmbedBuilder();
-            String author_name = jsonObject.get("name").getAsString();
-            String author_url = jsonObject.get("url").getAsString();
-            String author_icon_url = jsonObject.get("icon_url").getAsString();
             String titel = jsonObject.get("titel").getAsString();
             String color = jsonObject.get("color").getAsString();
             String description = jsonObject.get("description").getAsString();
-            JsonArray fieldsArray = jsonObject.get("fields").getAsJsonArray();
-            HashMap<Integer, MessageEmbed.Field> fields = new HashMap<>();
-            AtomicInteger i = new AtomicInteger();
-            fieldsArray.forEach(jsonElement -> {
-                String name = jsonElement.getAsJsonObject().get("name").getAsString();
-                String description_filed = jsonElement.getAsJsonObject().get("description").getAsString();
-                boolean inline = jsonElement.getAsJsonObject().get("inline").getAsBoolean();
-                embedBuilder.addField(name, description_filed, inline);
+
+            JsonObject author = jsonObject.get("author").getAsJsonObject();
+            String author_name = author.get("name").getAsString();
+            String author_url = author.get("url").getAsString();
+            String author_icon_url = author.get("icon_url").getAsString();
+
+            String thumbnail = jsonObject.get("thumbnail").getAsString();
+
+            EmbedBuilder embed = new EmbedBuilder()
+                    .setTitle(titel)
+                    .setColor(Color.decode(color))
+                    .setDescription(description)
+                    .setAuthor(author_name, author_url, author_icon_url)
+                    .setThumbnail(thumbnail);
+
+            JsonArray fields = jsonObject.get("fields").getAsJsonArray();
+            fields.forEach(jsonElement -> {
+                JsonObject element = jsonElement.getAsJsonObject();
+                String field_titel = element.get("titel").getAsString();
+                String field_description = element.get("description").getAsString();
+                Boolean field_inline = element.get("inline").getAsBoolean();
+                embed.addField(field_titel, field_description, field_inline);
             });
 
-            embedBuilder.setAuthor(author_name, author_url, author_icon_url);
-            embedBuilder.setTitle(titel);
-            embedBuilder.setColor(Color.decode(color));
-            embedBuilder.setDescription(description);
+            return embed;
 
-            return embedBuilder;
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
