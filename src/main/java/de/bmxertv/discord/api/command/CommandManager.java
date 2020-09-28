@@ -24,7 +24,7 @@ public class CommandManager extends ListenerAdapter {
     }
 
     public void initCommands(BotBuilder botBuilder) {
-        botBuilder.addListener(this);
+//        botBuilder.addListener(this);
         botBuilder.addListener(commands.values());
     }
 
@@ -39,6 +39,7 @@ public class CommandManager extends ListenerAdapter {
                 EmbedBuilder embed = EmbedManager.getEmbedFromJson(
                         ConfigManager.getJsonFromFile(new File("./configration.json")), "botOwnerMessage");
                 event.getChannel().sendMessage(embed.build()).queue();
+                return;
             }
             command.execute(new DiscordCommand.Command(event, args));
         }
