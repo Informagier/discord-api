@@ -14,7 +14,7 @@ public abstract class DiscordCommand {
     protected String[] aliases;
     protected String description;
     protected boolean botOwnerOnly;
-    private HashMap<String, DiscordCommand> commands = new HashMap<>();
+    public static HashMap<String, DiscordCommand> commands = new HashMap<>();
 
     protected abstract boolean execute(Command command);
 
