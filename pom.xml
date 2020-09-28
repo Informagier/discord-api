@@ -6,7 +6,7 @@
 
     <groupId>de.bmxertv</groupId>
     <artifactId>discord-api</artifactId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.6-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>
