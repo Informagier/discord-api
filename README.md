@@ -16,6 +16,7 @@ Meine Discord Bot Api
     "titel": "",
     "color": "",
     "description": "",
+    "thumbnail": "",
     "fields": [
       {
         "name": "",
