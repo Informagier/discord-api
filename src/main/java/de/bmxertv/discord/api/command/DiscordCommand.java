@@ -16,6 +16,13 @@ public abstract class DiscordCommand {
     protected boolean botOwnerOnly;
     public static HashMap<String, DiscordCommand> commands = new HashMap<>();
 
+    public DiscordCommand(String name, String[] aliases, String description, boolean botOwnerOnly) {
+        this.name = name;
+        this.aliases = aliases;
+        this.description = description;
+        this.botOwnerOnly = botOwnerOnly;
+    }
+
     protected abstract boolean execute(Command command);
 
     public void addCommand(Object object) {
