@@ -18,7 +18,6 @@ public class EmbedManager {
         String author_icon_url = author.getIcon_url();
 
         String thumbnail = embedObject.getThumbnail();
-        System.out.println(thumbnail);
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle(titel)

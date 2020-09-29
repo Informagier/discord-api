@@ -41,11 +41,8 @@ public class CommandManager extends ListenerAdapter {
                 String[] args = Arrays.stream(message.split(" ")).skip(1).toArray(String[]::new);
                 DiscordCommand command = (DiscordCommand) commands.get(invoke);
                 if (command.botOwnerOnly && !event.getMember().getId().equals(this.botOwnerId)) {
-                    event.getChannel().sendMessage("DEBUG").queue();
-
                     EmbedBuilder embedBuilder = EmbedManager.getEmbedFromObject(this.botOwnerMessage);
                     event.getChannel().sendMessage(embedBuilder.build()).queue();
-
                     return;
                 }
                 command.execute(new DiscordCommand.Command(event, args));
