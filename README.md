@@ -20,49 +20,37 @@ Meine Discord Bot Api
 - Jackson Databind
 
 ## JSON FORMATE
-- Erstelle die Datei `configration.json`
-- Füge das JSON Layout hinzu!
-- Trage deine werte ein
+- Erstelle eine Datei mit der Endung `.json`
+- Configuriere die Json datei
 ```json
 {
-  "botOwnerMessage": {
-    "author": {
-      "name": "",
-      "url": "",
-      "icon_url": ""
+  "token" : "",
+  "prefix" : "",
+  "onlyOwnerMessage" : {
+    "titel" : "",
+    "color" : "",
+    "description" : "",
+    "author" : {
+      "name" : "",
+      "url" : "",
+      "icon_url" : ""
     },
-    "titel": "",
-    "color": "",
-    "description": "",
-    "thumbnail": "",
-    "fields": [
-      {
-        "name": "",
-        "description": "",
-        "inline": false
-      }
-    ]
+    "thumbnail" : "",
+    "fieldObjects" : [ ]
+  },
+  "noPermissionsMessage" : {
+    "titel" : "",
+    "color" : "",
+    "description" : "",
+    "author" : {
+      "name" : "",
+      "url" : "",
+      "icon_url" : ""
+    },
+    "thumbnail" : "",
+    "fieldObjects" : [ ]
   }
 }
 ```
 - Embed Messages können beliebig hinzugefügt werden in dem Layout
 
-## So nutzt du die API
-```java
-    // BotBuilder initalizieren
-    BotBuilder botBuilder = new BotBuilder("TOKEN");
-    // Events hinzufügen
-    botBuilder.addListener(LISTENER);
-    
-    // Command Manager initalizieren
-    CommandManager commandManager = new CommandManager("BOT_OWNER_ID", "PREFIX");
-    botBuilder.addListener(commandManager);
-    commandManager.initCommands(botBuilder);
-
-    // ConfigManager initalizieren
-    File file = new File("./configration.json");
-    HashMap configManager = ConfigManager.getJsonFromFile(file);
-    
-    // EmbedManager
-    EmbedBuilder embedBuilder = EmbedManager.getEmbedFromJson(configManager, "JSON_NAME");    
-```
