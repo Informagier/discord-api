@@ -1,63 +1,50 @@
 package de.bmxertv.discord.api.styles;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import de.bmxertv.discord.api.core.BotBuilder;
+import de.bmxertv.discord.api.object.EmbedObject;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class EmbedManager {
 
+    public static EmbedBuilder getEmbedFromObject(EmbedObject embedObject) {
+        String titel = embedObject.getTitel();
+        String color = embedObject.getColor();
+        String description = embedObject.getDescription();
 
-    public static EmbedBuilder getEmbedFromJson(HashMap<String, String> jsonHashMap, String jsonName) {
-        try {
-            String json = new ObjectMapper().writeValueAsString(jsonHashMap);
-            JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class).get(jsonName).getAsJsonObject();
+        EmbedObject.AuthorObject author = embedObject.getAuthor();
+        String author_name = author.getName();
+        String author_url = author.getUrl();
+        String author_icon_url = author.getIcon_url();
 
-            String titel = jsonObject.get("titel").getAsString();
-            String color = jsonObject.get("color").getAsString();
-            String description = jsonObject.get("description").getAsString();
+        String thumbnail = embedObject.getThumbnail();
+        System.out.println(thumbnail);
 
-            JsonObject author = jsonObject.get("author").getAsJsonObject();
-            String author_name = author.get("name").getAsString();
-            String author_url = author.get("url").getAsString();
-            String author_icon_url = author.get("icon_url").getAsString();
+        EmbedBuilder embed = new EmbedBuilder()
+                .setTitle(titel)
+                .setColor(Color.decode(color))
+                .setDescription(description)
+                .setAuthor(author_name);
 
-            String thumbnail = jsonObject.get("thumbnail").getAsString();
-
-            EmbedBuilder embed = new EmbedBuilder()
-                    .setTitle(titel)
-                    .setColor(Color.decode(color))
-                    .setDescription(description)
-                    .setAuthor(author_name, author_url, author_icon_url)
-                    .setThumbnail(thumbnail);
-
-            JsonArray fields = jsonObject.get("fields").getAsJsonArray();
-            fields.forEach(jsonElement -> {
-                JsonObject element = jsonElement.getAsJsonObject();
-                String field_titel = element.get("titel").getAsString();
-                String field_description = element.get("description").getAsString();
-                Boolean field_inline = element.get("inline").getAsBoolean();
-                embed.addField(field_titel, field_description, field_inline);
-            });
-
-            return embed;
-
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if (!author_url.isEmpty()) {
+            embed.setAuthor(author_name, author_url);
         }
-        return null;
+        if (!author_icon_url.isEmpty()) {
+            embed.setAuthor(author_name, author_url, author_icon_url);
+        }
+
+        if (!thumbnail.isEmpty()) {
+            embed.setThumbnail(thumbnail);
+        }
+
+        EmbedObject.FieldObject[] fieldObjects = embedObject.getFieldObjects();
+        for (EmbedObject.FieldObject fieldObject : fieldObjects) {
+            String field_titel = fieldObject.getTitel();
+            String field_description = fieldObject.getDescription();
+            Boolean field_inline = fieldObject.getInline();
+            embed.addField(field_titel, field_description, field_inline);
+        }
+        return embed;
     }
 
 }

@@ -8,13 +8,13 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public abstract class DiscordCommand {
+public abstract class DiscordCommand extends ListenerAdapter {
 
     protected String name;
     protected String[] aliases;
     protected String description;
     protected boolean botOwnerOnly;
-    public static HashMap<String, DiscordCommand> commands = new HashMap<>();
+    public static HashMap<String, Object> commands = new HashMap<>();
 
     public DiscordCommand(String name, String[] aliases, String description, boolean botOwnerOnly) {
         this.name = name;
@@ -26,8 +26,10 @@ public abstract class DiscordCommand {
     protected abstract boolean execute(Command command);
 
     public void addCommand(Object object) {
-        commands.put(name, (DiscordCommand) object);
-        Arrays.stream(aliases).forEach(this::addCommand);
+        commands.put(name, object);
+        Arrays.stream(aliases).forEach(s -> {
+            commands.put(s, object);
+        });
     }
 
     public String getName() {
