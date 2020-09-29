@@ -36,7 +36,13 @@ Meine Discord Bot Api
       "icon_url" : ""
     },
     "thumbnail" : "",
-    "fieldObjects" : [ ]
+    "fieldObjects" : [
+      {
+        "titel": "",
+        "description": "",
+        "inline": false
+      }
+    ]
   },
   "noPermissionsMessage" : {
     "titel" : "",
