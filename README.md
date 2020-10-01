@@ -60,3 +60,66 @@ Meine Discord Bot Api
 ```
 - Embed Messages können beliebig hinzugefügt werden in dem Layout
 
+## Beispiele
+### BotBuilder
+```java
+    BotBuilder botBuilder = new BotBuilder("TOKEN");
+```
+### Config Manager
+```java
+    File configFile = new File("./config.json");
+    ConfigObject configObject = (ConfigObject) ConfigManager.getJsonFromFile(configFile, ConfigObject.class);
+    
+    // ERSTELLEN DER STANDRD CONFIG
+    ConfigManager.createDefaultConfig(configFile);
+    // PREFIX AUSGEBEN
+    System.out.println(configObject.getPrefix());
+```
+### Command Manager
+```java
+    CommandManager commandManager = new CommandManager(
+        "botOwnerId",
+        // NUTZT DEN STRING AUS DER CONFIG DATEI
+        configObject.getPrefix(),
+        // NUTZ DAS ONLY_OWNER_MESSAGE OBJECT AUS DER CONFIG DATEI
+        configObject.getOwnlyOwnerMessage()
+    );
+    // FÜGT DEN COMMAND MANAGER ZUM BOT HINZU
+    botBuilder.addListener(commandManager);
+    // FÜGT ALLE COMMANDS ZUM BOT HINZU
+    commandManager.initCommand(botBuilder);
+```
+### COMMAND
+```java
+import de.bmxertv.discord.api.command.DiscordCommand;
+
+public class Example extends DiscordCommand {
+    
+    public Example() {
+        super("name", new String[]{"aliases"}, "Beschreibung", botOwnerOnly);
+        addCommand(this);    
+    }
+    
+    protected boolean execute(Command command) {
+        command.getChannel().sendMessage("Hello World!").queue();
+        return false;
+    }
+  
+}
+```
+### EmbedObject
+```java
+    EmbedObject embedObject = new EmbedObject(
+        "TITEL",
+        "COLOR",
+        "BESCHREIBUNG (OPTIONAL)",
+        new EmbedObject.AuthorObject("NAME", "URL (OPTIONAL)" , "ICON_URL (OPTIONAL)") (OPTIONAL),
+        "THUMBNAIL_URL (OPTIONAL)",
+        new EmbedObject.FieldObject[]{
+            new EmbedObject.FieldObject("TITEL", "BESCHREIBUNG", "INLINE")
+        } (OPTIONAL) 
+    );
+
+    // KANN AUCH OHNE VARIABLE GENUTZ WERDEN BEI SENDEN EINER NACHRICHT
+    EmbedBuilder embed = EmbedManager.getEmbedFromObject(embedObject);
+```
