@@ -1,16 +1,16 @@
 package de.bmxertv.discord.api.object;
 
-public class ConfiguarationObject {
+public class ConfigObject {
 
     String token;
     String prefix;
     EmbedObject onlyOwnerMessage;
     EmbedObject noPermissionsMessage;
 
-    public ConfiguarationObject() {
+    public ConfigObject() {
     }
 
-    public ConfiguarationObject(String token, String prefix, EmbedObject onlyOwnerMessage, EmbedObject noPermissionsMessage) {
+    public ConfigObject(String token, String prefix, EmbedObject onlyOwnerMessage, EmbedObject noPermissionsMessage) {
         this.token = token;
         this.prefix = prefix;
         this.onlyOwnerMessage = onlyOwnerMessage;

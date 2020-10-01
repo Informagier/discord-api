@@ -2,8 +2,12 @@ package de.bmxertv.discord.api.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import de.bmxertv.discord.api.object.ConfigObject;
+import de.bmxertv.discord.api.object.EmbedObject;
+import de.bmxertv.discord.api.styles.Emojis;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.HashMap;
 
 public class ConfigManager {
@@ -50,4 +54,36 @@ public class ConfigManager {
         }
         return null;
     }
+
+    public static void cretaeDefaultConfig(File file) {
+        EmbedObject onlyBotOwnerMessage = new EmbedObject(
+                MessageFormat.format("{0} | **WARNING** | {0}", Emojis.WARNING),
+                "#ebcc34",
+                "Der Befehl konnte nicht ausgeführt werden! \uD83D\uDE41\nDa du nicht der Bot eigentümer bist.",
+                new EmbedObject.AuthorObject("Server", "https://bmxertv.de", "https://bmxertv.de/assets/img/favicon.png"),
+                "https://media1.tenor.com/images/bbb1a23fcf766e5439b3546027f3c2b0/tenor.gif?itemid=10711703",
+                new EmbedObject.FieldObject[]{});
+        EmbedObject noPermissionsMessage = new EmbedObject(
+                MessageFormat.format("{0} | **WARNING** | {0}", Emojis.WARNING),
+                "#ebcc34",
+                "Der Befehl konnte nicht ausgeführt werden da du keine Berechtigung dafür hast!",
+                new EmbedObject.AuthorObject("Server", "https://bmxertv.de", "https://bmxertv.de/assets/img/favicon.png"),
+                "https://media1.tenor.com/images/bbb1a23fcf766e5439b3546027f3c2b0/tenor.gif?itemid=10711703",
+                new EmbedObject.FieldObject[]{});
+        ConfigObject configObject = new ConfigObject(
+                "",
+                "!",
+                onlyBotOwnerMessage,
+                noPermissionsMessage
+        );
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, configObject);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

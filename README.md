@@ -9,7 +9,7 @@ Meine Discord Bot Api
     <dependency>
       <groupId>de.bmxertv</groupId>
       <artifactId>discord-api</artifactId>
-      <version>VERSION</version>
+      <version>1.3-RELEASE</version>
     </dependency> 
 ```
 
