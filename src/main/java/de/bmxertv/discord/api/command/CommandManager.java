@@ -26,7 +26,6 @@ public class CommandManager extends ListenerAdapter {
     }
 
     public void initCommands(BotBuilder botBuilder) {
-//        botBuilder.addListener(this);
         commands.forEach((s, discordCommand) -> {
             botBuilder.addListener(discordCommand);
         });
